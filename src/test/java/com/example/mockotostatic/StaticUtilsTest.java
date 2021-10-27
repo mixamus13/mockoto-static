@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
+import java.util.Arrays;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class StaticUtilsTest {
@@ -27,5 +29,11 @@ class StaticUtilsTest {
         assertThat(StaticUtils.range(2, 6)).containsExactly(2, 3, 4, 5);
 
         MockedStatic<StaticUtils> utilsMockedStatic = Mockito.mockStatic(StaticUtils.class);
+        utilsMockedStatic.when(() -> StaticUtils.range(2, 6))
+                .thenReturn(Arrays.asList(10, 11, 12));
+
+        assertThat(StaticUtils.range(2, 6)).containsExactly(10, 11, 12);
+
+        //assertThat(StaticUtils.range(2, 6)).containsExactly(2, 3, 4, 5);
     }
 }
