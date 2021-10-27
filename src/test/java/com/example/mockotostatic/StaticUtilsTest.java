@@ -16,11 +16,12 @@ class StaticUtilsTest {
     void getNameTest() {
         assertThat(StaticUtils.name()).isEqualTo("Mixamus");
 
-        MockedStatic<StaticUtils> utilsMockedStatic = Mockito.mockStatic(StaticUtils.class);
-        utilsMockedStatic.when(StaticUtils::name).thenReturn("Melisa");
-        assertThat(StaticUtils.name()).isEqualTo("Melisa");
+        try (MockedStatic<StaticUtils> utilsMockedStatic = Mockito.mockStatic(StaticUtils.class)) {
+            utilsMockedStatic.when(StaticUtils::name).thenReturn("Melisa");
+            assertThat(StaticUtils.name()).isEqualTo("Melisa");
+        }
 
-        //assertThat(StaticUtils.name()).isEqualTo("Mixamus");
+        assertThat(StaticUtils.name()).isEqualTo("Mixamus");
     }
 
     @DisplayName("Get to range numbers")
@@ -28,12 +29,12 @@ class StaticUtilsTest {
     void getRangeTest() {
         assertThat(StaticUtils.range(2, 6)).containsExactly(2, 3, 4, 5);
 
-        MockedStatic<StaticUtils> utilsMockedStatic = Mockito.mockStatic(StaticUtils.class);
-        utilsMockedStatic.when(() -> StaticUtils.range(2, 6))
-                .thenReturn(Arrays.asList(10, 11, 12));
+        try (MockedStatic<StaticUtils> utilsMockedStatic = Mockito.mockStatic(StaticUtils.class)) {
+            utilsMockedStatic.when(() -> StaticUtils.range(2, 6))
+                    .thenReturn(Arrays.asList(10, 11, 12));
+            assertThat(StaticUtils.range(2, 6)).containsExactly(10, 11, 12);
+        }
 
-        assertThat(StaticUtils.range(2, 6)).containsExactly(10, 11, 12);
-
-        //assertThat(StaticUtils.range(2, 6)).containsExactly(2, 3, 4, 5);
+        assertThat(StaticUtils.range(2, 6)).containsExactly(2, 3, 4, 5);
     }
 }
